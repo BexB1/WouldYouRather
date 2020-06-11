@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  text-align: right;
+  height: 50px;
+  margin: 0;
+}
+
+.navbar nav {
+  margin: 0;
+}
+
+.navbar nav ul {
+  margin: 0;
+  list-style: none;
+}
