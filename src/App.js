@@ -1,20 +1,23 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
+import Home from "./components/Home";
+import Leaderboard from "./components/Leaderboard";
 
 function App() {
   return (
-    <div className="App">
-      <Nav />
-      <h1>Would you Rather?</h1>
-      <section>
-        <h2>Unanswered Questions</h2>
-      </section>
-      <section>
-        <h2>Answered Questions</h2>
-      </section>
-      <button>New Question</button>
-    </div>
+    <Router>
+      <Fragment>
+        <div className="App">
+          <Nav />
+          <div>
+            <Route path="/" exact component={Home} />
+            <Route path="/leaderboard" exact component={Leaderboard} />
+          </div>
+        </div>
+      </Fragment>
+    </Router>
   );
 }
 

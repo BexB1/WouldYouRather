@@ -46,6 +46,10 @@
   margin: 0;
 }
 
+.navbar a {
+  color: #ffffff;
+}
+
 .navbar nav {
   margin: 0;
 }

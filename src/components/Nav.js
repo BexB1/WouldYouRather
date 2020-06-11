@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 export default class Nav extends Component {
   render() {
@@ -6,7 +7,16 @@ export default class Nav extends Component {
       <div className="navbar">
         <nav>
           <ul>
-            <li>Log in</li>
+            <li>
+              <NavLink to="/" exact>
+                WYR?
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/leaderboard" exact>
+                Leaderboard
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>
