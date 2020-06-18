@@ -8,6 +8,11 @@ export default class Nav extends Component {
         <nav>
           <ul>
             <li>
+              <NavLink to="/new" exact>
+                Ask
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/" exact>
                 WYR?
               </NavLink>

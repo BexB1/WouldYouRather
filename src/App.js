@@ -4,6 +4,8 @@ import "./App.css";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Leaderboard from "./components/Leaderboard";
+import NewQuestion from "./components/questions/new";
+import * as api from "./_DATA.js";
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
           <div>
             <Route path="/" exact component={Home} />
             <Route path="/leaderboard" exact component={Leaderboard} />
+            <Route path="/new" exact component={NewQuestion} />
           </div>
         </div>
       </Fragment>
