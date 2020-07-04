@@ -1,15 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { formatQuestion } from "../../utils/_DATA.js";
+import { formatDate } from "../../utils/helpers.js";
 
 class Question extends Component {
   render() {
-    console.log(this.props);
-    const { question } = this.props;
+    const { question, authedUser } = this.props;
 
-    const { id, author, timestamp, optionOne, optionTwo } = question;
+    const { id, timestamp, optionOne, optionTwo } = question;
 
-    return <div>{id}</div>;
+    return (
+      <div>
+        <span>Question by {question.author}</span>
+        <span> -- {formatDate(timestamp)}</span>
+        <p>Would you rather...</p>
+        <p>
+          <span>{optionOne.text}</span> OR <span>{optionTwo.text}</span>
+        </p>
+        <hr />
+      </div>
+    );
   }
 }
 
@@ -18,14 +28,10 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
 
   return {
     authedUser,
-    question: formatQuestion(
-      question.optionOne.text,
-      question.optionTwo.text,
-      users[question.author]
-    ),
+    question: question,
+    author: users[question.author],
+    users,
   };
 }
-
-// ^ FORMAT: function formatQuestion({ optionOneText, optionTwoText, author })
 
 export default connect(mapStateToProps)(Question);
