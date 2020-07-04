@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { connect } from "react-redux";
 import "../App.css";
 
 import Nav from "./Nav";
@@ -18,11 +19,13 @@ class App extends Component {
         <Fragment>
           <div className="App">
             <Nav />
-            <div>
-              <Route path="/" exact component={Home} />
-              <Route path="/leaderboard" exact component={Leaderboard} />
-              <Route path="/new" exact component={NewQuestion} />
-            </div>
+            {this.props.loading === true ? null : (
+              <div>
+                <Route path="/" exact component={Home} />
+                <Route path="/leaderboard" exact component={Leaderboard} />
+                <Route path="/new" exact component={NewQuestion} />
+              </div>
+            )}
           </div>
         </Fragment>
       </Router>
@@ -30,4 +33,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps({ authedUser }) {
+  return {
+    loading: authedUser === null,
+  };
+}
+
+export default connect(mapStateToProps)(App);
