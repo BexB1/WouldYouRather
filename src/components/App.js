@@ -7,6 +7,7 @@ import Nav from "./Nav";
 import Home from "./Home";
 import Leaderboard from "./Leaderboard";
 import NewQuestion from "./questions/new";
+import ShowQuestion from "./questions/show";
 import { handleInitialData } from "../actions/shared";
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
             {this.props.loading === true ? null : (
               <div>
                 <Route path="/" exact component={Home} />
+                <Route path="/question/:id" exact component={ShowQuestion} />
                 <Route path="/leaderboard" exact component={Leaderboard} />
                 <Route path="/new" exact component={NewQuestion} />
               </div>

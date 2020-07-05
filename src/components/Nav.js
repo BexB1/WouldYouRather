@@ -1,30 +1,48 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import styled from "styled-components";
 
-export default class Nav extends Component {
+const StyledLi = styled.li`
+  display: inline;
+  margin-left: 15px;
+`;
+
+class Nav extends Component {
   render() {
+    const { authedUser } = this.props;
+
     return (
       <div className="navbar">
         <nav>
           <ul>
-            <li>
+            <StyledLi>User: {authedUser}</StyledLi>
+            <StyledLi>
               <NavLink to="/new" exact>
                 Ask
               </NavLink>
-            </li>
-            <li>
+            </StyledLi>
+            <StyledLi>
               <NavLink to="/" exact>
                 WYR?
               </NavLink>
-            </li>
-            <li>
+            </StyledLi>
+            <StyledLi>
               <NavLink to="/leaderboard" exact>
                 Leaderboard
               </NavLink>
-            </li>
+            </StyledLi>
           </ul>
         </nav>
       </div>
     );
   }
 }
+
+function mapStateToProps({ authedUser }) {
+  return {
+    authedUser,
+  };
+}
+
+export default connect(mapStateToProps)(Nav);
