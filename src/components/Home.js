@@ -1,36 +1,57 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Question from "./questions/Question";
+import { Container, Grid, Tab } from 'semantic-ui-react'
+
+
+
 
 // GETS polls
 export class Home extends Component {
   render() {
-    const {
-      authedUser,
-      questions,
-      answeredQuestions,
-      unansweredQuestions,
-    } = this.props;
+    const { answeredQuestions, unansweredQuestions } = this.props;
+
+    const panes = [
+      {
+        menuItem: 'Unanswered',
+        render: () =>
+          <Tab.Pane attached={false}>
+            <div>
+              {unansweredQuestions.map((q) => (
+                <div key={q.id}>
+                  <Question id={q.id} />
+                </div>
+              ))}
+            </div>
+          </Tab.Pane>
+      },
+      {
+        menuItem: 'Answered',
+        render: () => 
+          <Tab.Pane attached={false}>
+            <div>
+              {answeredQuestions.map((q) => (
+                <div key={q.id}>
+                  <Question id={q.id} />
+                </div>
+              ))}
+            </div>
+          </Tab.Pane>,
+      },
+    ]
 
     return (
-      <div>
-        <div>
-          <h1>Unanswered Questions</h1>
-          {unansweredQuestions.map((q) => (
-            <div key={q.id}>
-              <Question id={q.id} />
-            </div>
-          ))}
-        </div>
-        <div>
-          <h1>Answered Questions</h1>
-          {answeredQuestions.map((q) => (
-            <div key={q.id}>
-              <Question id={q.id} />
-            </div>
-          ))}
-        </div>
-      </div>
+      <Container>
+      <h1>Would you rather...</h1>
+      <Grid columns='one' centered>
+        <Grid.Row>
+          <Grid.Column>
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+              
+            </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      </Container>
     );
   }
 }

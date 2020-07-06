@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+import { Button, Card, Image } from "semantic-ui-react";
 
 import { formatQuestion } from "../../utils/_DATA.js";
 import { formatDate } from "../../utils/helpers.js";
@@ -13,22 +14,27 @@ class Question extends Component {
 
     return (
       <Link to={`/question/${id}`}>
-        <div>
-          {/* TODO:Remove questions ASKED by current user */}
-          <img src={author.avatarURL} alt="" />
-          <span>Question by {question.author}</span>
-          <span> -- {formatDate(timestamp)}</span>
-          <p>Would you rather...</p>
-          <p>
-            <span>{optionOne.text}</span> OR <span>{optionTwo.text}</span>
-          </p>
-          <p>Op1 votes: {optionOne.votes}</p>
-          <p>Op2 votes: {optionTwo.votes}</p>
-          {questionVotes.includes(authedUser) ? (
-            <p>You've voted for this</p>
-          ) : null}
-          <hr />
-        </div>
+        <Card>
+          <Card.Content>
+            <Image floated="right" size="mini" src={author.avatarURL} />
+            <Card.Header>{question.author} asks...</Card.Header>
+            <Card.Meta>{formatDate(timestamp)}</Card.Meta>
+            <Card.Description>Would you rather...</Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <div className="ui two buttons">
+              <Button basic color="green">
+                {optionOne.text}
+              </Button>
+              <Button basic color="red">
+                {optionTwo.text}
+              </Button>
+            </div>
+            {questionVotes.includes(authedUser) ? (
+              <p>You've voted for this</p>
+            ) : null}
+          </Card.Content>
+        </Card>
       </Link>
     );
   }
