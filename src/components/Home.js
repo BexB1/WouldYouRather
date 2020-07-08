@@ -45,6 +45,8 @@ export class Home extends Component {
       <h1>Would you rather...</h1>
       <Grid columns='one' centered>
         <Grid.Row>
+          <Grid.Column width={2}>
+          </Grid.Column>
           <Grid.Column>
             <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
               

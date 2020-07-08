@@ -18,7 +18,7 @@ class Nav extends Component {
           <ul>
             <StyledLi>User: {authedUser}</StyledLi>
             <StyledLi>
-              <NavLink to="/new" exact>
+              <NavLink to="/add" exact>
                 Ask
               </NavLink>
             </StyledLi>

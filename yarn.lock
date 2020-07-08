@@ -9040,6 +9040,11 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.6.3, react-is@^16.7.0, react-i
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-lifecycles-compat@^3.0.2:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
 react-popper@^1.3.4:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-1.3.7.tgz#f6a3471362ef1f0d10a4963673789de1baca2324"
@@ -9052,6 +9057,14 @@ react-popper@^1.3.4:
     prop-types "^15.6.1"
     typed-styles "^0.0.7"
     warning "^4.0.2"
+
+react-redux-loading@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/react-redux-loading/-/react-redux-loading-4.6.1.tgz#29b3e3d90625b00cd795423fd9cdb1b4ca09438e"
+  integrity sha512-MrpabKX0LTwqVq/gQjffV44GvVN7F1nZD7Ur1g8twYt4D/Yoq3ezL2f3nQybcXkmlMuYH6YFXgalLKoDDmPIrg==
+  dependencies:
+    prop-types "^15.6.2"
+    react-lifecycles-compat "^3.0.2"
 
 react-redux@^7.2.0:
   version "7.2.0"

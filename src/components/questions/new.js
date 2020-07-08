@@ -1,13 +1,16 @@
 import React, { Component } from "react";
-import { Button, Form, Input } from 'semantic-ui-react'
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-//  GET authedUser so User can create Poll
-// SET options of new Poll
+import { handleAddQuestion } from "../../actions/questions";
+import { formatQuestion } from "../../utils/_DATA.js";
+import { Button, Container, Form, Grid, Input } from 'semantic-ui-react'
 
 export class NewQuestion extends Component {
   state = {
     optionOneText: "",
     optionTwoText: "",
+    toHome: false,
   }
 
   handleChange = (e) => {
@@ -19,29 +22,48 @@ export class NewQuestion extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
-    const st = this.state;
+    const { optionOneText, optionTwoText } = this.state;
+    const { dispatch, id } = this.props;
 
-    console.log("New question: ", st)
+    dispatch(handleAddQuestion(optionOneText, optionTwoText));
+
+    this.setState(() => ({
+      optionOneText: "",
+      optionTwoText: "",
+      toHome: id ? false : true,
+    }));
   }
 
   render() {
     const { optionOneText, optionTwoText } = this.state
+    const { text, toHome } = this.state;
+
+    if (toHome === true) {
+      return <Redirect to="/" />;
+    }
+
     return (
-    <div>
-      <h1>New Question</h1>
-      <Form>
-        <p>"Would you rather..."</p>
-        <Form.Field>
-          <Input label="First option" name="optionOneText" placeholder='Option One' onChange={this.handleChange} />
-        </Form.Field>
-        <Form.Field>
-          <Input label="Second option" name="optionTwoText" placeholder='Option Two' onChange={this.handleChange} />
-        </Form.Field>
-        <Button onClick={this.handleSubmit} disabled={(optionOneText && optionTwoText) === ""}>Submit</Button>
-      </Form>
-    </div>
+    <Container>
+      <Grid columns='one' centered>
+        <Grid.Row>
+          <Grid.Column>
+            <h1>New Question</h1>
+            <Form>
+              <p>"Would you rather..."</p>
+              <Form.Field>
+                <Input label="First option" name="optionOneText" placeholder='Option One' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <Input label="Second option" name="optionTwoText" placeholder='Option Two' onChange={this.handleChange} />
+              </Form.Field>
+              <Button onClick={this.handleSubmit} disabled={(optionOneText && optionTwoText) === ""}>Submit</Button>
+            </Form>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Container>
     )
   }
 }
 
-export default NewQuestion;
+export default connect()(NewQuestion);
