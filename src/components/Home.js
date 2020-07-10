@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+
 import Question from "./questions/Question";
 import { Container, Grid, Tab } from 'semantic-ui-react'
 
-
-
-
-// GETS polls
 export class Home extends Component {
   render() {
     const { answeredQuestions, unansweredQuestions } = this.props;
@@ -18,9 +16,9 @@ export class Home extends Component {
           <Tab.Pane attached={false}>
             <div>
               {unansweredQuestions.map((q) => (
-                <div key={q.id}>
+                <Link to={`/question/${q.id}`} key={q.id}>
                   <Question id={q.id} />
-                </div>
+                </Link>
               ))}
             </div>
           </Tab.Pane>
@@ -31,9 +29,9 @@ export class Home extends Component {
           <Tab.Pane attached={false}>
             <div>
               {answeredQuestions.map((q) => (
-                <div key={q.id}>
+                <Link to={`/question/${q.id}`} key={q.id}>
                   <Question id={q.id} />
-                </div>
+                </Link>
               ))}
             </div>
           </Tab.Pane>,

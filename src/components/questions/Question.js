@@ -13,29 +13,27 @@ class Question extends Component {
     const { id, timestamp, optionOne, optionTwo } = question;
 
     return (
-      <Link to={`/question/${id}`}>
-        <Card>
-          <Card.Content>
-            <Image floated="right" size="mini" src={author.avatarURL} />
-            <Card.Header>{question.author} asks...</Card.Header>
-            <Card.Meta>{formatDate(timestamp)}</Card.Meta>
-            <Card.Description>Would you rather...</Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <div className="ui two buttons">
-              <Button basic color="green">
-                {optionOne.text}
-              </Button>
-              <Button basic color="red">
-                {optionTwo.text}
-              </Button>
-            </div>
-            {questionVotes.includes(authedUser) ? (
-              <p>You've voted for this</p>
-            ) : null}
-          </Card.Content>
-        </Card>
-      </Link>
+      <Card>
+        <Card.Content>
+          <Image floated="right" size="mini" src={author.avatarURL} />
+          <Card.Header>{question.author} asks...</Card.Header>
+          <Card.Meta>{formatDate(timestamp)}</Card.Meta>
+          <Card.Description>Would you rather...</Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className="ui two buttons">
+            <Button basic color="green">
+              {optionOne.text}
+            </Button>
+            <Button basic color="red">
+              {optionTwo.text}
+            </Button>
+          </div>
+          {questionVotes.includes(authedUser) ? (
+            <p>You've voted for this</p>
+          ) : null}
+        </Card.Content>
+      </Card>
     );
   }
 }
