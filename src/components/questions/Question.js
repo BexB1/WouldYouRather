@@ -5,8 +5,21 @@ import { Button, Card, Image } from "semantic-ui-react";
 
 import { formatQuestion } from "../../utils/_DATA.js";
 import { formatDate } from "../../utils/helpers.js";
+import { handleAddAnswer } from "../../actions/shared"
 
 class Question extends Component {
+  handleAnswer = (e) => {
+    e.preventDefault()
+
+    const { dispatch, question, authedUser } = this.props;
+
+    dispatch(handleAddAnswer({
+      authedUser,
+      qid: question.id, 
+      answer: e.target.name
+    }))
+  }
+
   render() {
     const { question, author, authedUser, questionVotes } = this.props;
 
@@ -22,10 +35,10 @@ class Question extends Component {
         </Card.Content>
         <Card.Content extra>
           <div className="ui two buttons">
-            <Button basic color="green">
+            <Button basic color="green" name="optionOne" onClick={this.handleAnswer}>
               {optionOne.text}
             </Button>
-            <Button basic color="red">
+            <Button basic color="red" name="optionTwo" onClick={this.handleAnswer}>
               {optionTwo.text}
             </Button>
           </div>

@@ -1,11 +1,8 @@
-import { saveQuestion } from "../utils/api";
-import { showLoading, hideLoading } from "react-redux-loading";
+import { saveQuestion, saveQuestionAnswer } from "../utils/api";
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_QUESTION = "ADD_QUESTION";
-export const EDIT_QUESTION = "EDIT_QUESTION";
 export const ADD_ANSWER = "ADD_ANSWER";
-export const TOGGLE_VOTES = "TOGGLE_VOTES";
 
 export function receiveQuestions(questions) {
   return {
@@ -14,29 +11,18 @@ export function receiveQuestions(questions) {
   };
 }
 
-function addQuestion(question) {
+export function addQuestion(question) {
   return {
     type: ADD_QUESTION,
     question,
   };
 }
 
-export function handleAddQuestion(optionOneText, optionTwoText) {
-  return (dispatch, getState) => {
-    const { authedUser } = getState();
-
-    dispatch(showLoading());
-
-    return saveQuestion({ optionOneText, optionTwoText, author: authedUser })
-      .then((question) => dispatch(addQuestion(question)))
-      .then(dispatch(hideLoading()));
-  }
-}
-
-function toggleVotes({ id, hasVotes }) {
+export function addAnswer({ authedUser, qid, answer }) {
   return {
-    type: TOGGLE_VOTES,
-    id,
-    hasVotes,
+    type: ADD_ANSWER,
+    authedUser,
+    qid,
+    answer,
   };
 }
