@@ -2,22 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Card, Image } from "semantic-ui-react";
 
+import Results from "./Results";
 import { formatDate } from "../../utils/helpers.js";
 import { handleAddAnswer } from "../../actions/shared";
 
 class Question extends Component {
-  state = {
-    vote: "",
-  };
-
-  handleAnswer = (e, { vote }) => {
-    const value = e.target.name;
-
+  handleAnswer = (e) => {
     e.preventDefault();
 
     const { dispatch, question, authedUser } = this.props;
-
-    this.setState(() => ({ vote: value }));
 
     dispatch(
       handleAddAnswer({
@@ -42,25 +35,28 @@ class Question extends Component {
           <Card.Description>Would you rather...</Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <div className="ui two buttons">
-            <Button
-              basic
-              color="green"
-              name="optionOne"
-              onClick={this.handleAnswer}
-            >
-              {optionOne.text}
-            </Button>
-            <Button
-              basic
-              color="red"
-              name="optionTwo"
-              onClick={this.handleAnswer}
-            >
-              {optionTwo.text}
-            </Button>
-          </div>
-          {usersAnsweredQuestions ? <p>You've voted for this</p> : null}
+          {usersAnsweredQuestions ? (
+            <Results id={question.id} />
+          ) : (
+            <div className="ui two buttons">
+              <Button
+                basic
+                color="green"
+                name="optionOne"
+                onClick={this.handleAnswer}
+              >
+                {optionOne.text}
+              </Button>
+              <Button
+                basic
+                color="red"
+                name="optionTwo"
+                onClick={this.handleAnswer}
+              >
+                {optionTwo.text}
+              </Button>
+            </div>
+          )}
         </Card.Content>
       </Card>
     );
@@ -81,6 +77,8 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
     author,
     users,
     questionVotes,
+    optionOneVotes,
+    optionTwoVotes,
     usersAnsweredQuestions,
   };
 }

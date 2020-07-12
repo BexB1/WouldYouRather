@@ -62,3 +62,7 @@ body {
   margin: 0;
   list-style: none;
 }
+
+.label {
+  color: green;
+}

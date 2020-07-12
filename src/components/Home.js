@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Question from "./questions/Question";
-import { Container, Grid, Tab } from "semantic-ui-react";
+import { formatDate } from "../utils/helpers.js";
+import { Card, Container, Grid, Image, Tab } from "semantic-ui-react";
 
 class Home extends Component {
   state = {
@@ -15,7 +16,7 @@ class Home extends Component {
   };
 
   render() {
-    const { handleTabToggle, userQuestionData } = this.props;
+    const { handleTabToggle, questionsFiltered } = this.props;
 
     const panes = [
       {
@@ -23,11 +24,26 @@ class Home extends Component {
         render: () => (
           <Tab.Pane attached={false} onClick={handleTabToggle}>
             <div>
-              {userQuestionData.unansweredQuestions.map((q) => (
-                <Link to={`/question/${q.id}`} key={q.id}>
-                  <Question id={q.id} />
-                </Link>
-              ))}
+              {questionsFiltered.unansweredQuestions.length > 0 ? (
+                questionsFiltered.unansweredQuestions.map((q) => (
+                  <Link to={`/question/${q.id}`} key={q.id}>
+                    <Card>
+                      <Card.Content>
+                        <Image
+                          floated="right"
+                          size="mini"
+                          src={q.author.avatarURL}
+                        />
+                        <Card.Header>{q.author} asks...</Card.Header>
+                        <Card.Meta>{formatDate(q.timestamp)}</Card.Meta>
+                        <Card.Description>Would you rather...</Card.Description>
+                      </Card.Content>
+                    </Card>
+                  </Link>
+                ))
+              ) : (
+                <p>You've answered all the questions!</p>
+              )}
             </div>
           </Tab.Pane>
         ),
@@ -37,7 +53,7 @@ class Home extends Component {
         render: () => (
           <Tab.Pane attached={false}>
             <div>
-              {userQuestionData.answeredQuestions.map((q) => (
+              {questionsFiltered.answeredQuestions.map((q) => (
                 <Link to={`/question/${q.id}`} key={q.id}>
                   <Question id={q.id} />
                 </Link>
@@ -64,9 +80,6 @@ class Home extends Component {
   }
 }
 
-// questions is the array of questions from the store
-// questionIds is an array of question.Ids, sorted by question.timestamp,
-
 function mapStateToProps({ questions, users, authedUser }) {
   let questionValues = Object.values(questions);
   const user = users[authedUser];
@@ -83,7 +96,7 @@ function mapStateToProps({ questions, users, authedUser }) {
   return {
     questions,
     authedUserAnswers,
-    userQuestionData: {
+    questionsFiltered: {
       answeredQuestions,
       unansweredQuestions,
     },
