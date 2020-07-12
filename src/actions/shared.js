@@ -1,9 +1,8 @@
 import { getInitialData, saveQuestion, saveQuestionAnswer } from "../utils/api";
-import { receiveQuestions, addQuestion } from "./questions";
+import { receiveQuestions, addQuestion, addAnswer } from "./questions";
 import { receiveUsers, saveUserAnswer } from "./users";
 import { setAuthedUser } from "../actions/authedUser";
 import { showLoading, hideLoading } from "react-redux-loading";
-
 
 const AUTHED_ID = "tylermcginnis";
 
@@ -26,16 +25,17 @@ export function handleAddQuestion(optionOneText, optionTwoText) {
     return saveQuestion({ optionOneText, optionTwoText, author: authedUser })
       .then((question) => dispatch(addQuestion(question)))
       .then(dispatch(hideLoading()));
-  }
+  };
 }
 
 export function handleAddAnswer({ authedUser, qid, answer }) {
   return (dispatch) => {
-    dispatch(saveUserAnswer(authedUser, qid, answer))
+    dispatch(addAnswer({ authedUser, qid, answer }));
+    dispatch(saveUserAnswer({ authedUser, qid, answer }));
     return saveQuestionAnswer({
       authedUser,
       qid,
-      answer
-    })
-  }
+      answer,
+    });
+  };
 }

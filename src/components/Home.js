@@ -1,63 +1,64 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Question from "./questions/Question";
-import { formatDate } from "../utils/helpers.js";
-import { Card, Container, Grid, Image, Tab } from 'semantic-ui-react'
+import { Container, Grid, Tab } from "semantic-ui-react";
 
-export class Home extends Component {
+class Home extends Component {
+  state = {
+    viewAnswered: false,
+  };
+
+  handleTabToggle = () => {
+    this.getState();
+  };
+
   render() {
-    const { questions, answeredQuestions, unansweredQuestions } = this.props;
+    const { handleTabToggle, userQuestionData } = this.props;
 
     const panes = [
       {
-        menuItem: 'Unanswered',
-        render: () =>
-          <Tab.Pane attached={false}>
+        menuItem: "Unanswered",
+        render: () => (
+          <Tab.Pane attached={false} onClick={handleTabToggle}>
             <div>
-              {unansweredQuestions.map((q) => (
-                <Link to={`/question/${q.id}`} key={q.id}>
-                  <Card>
-                    <Card.Content>
-                      <Image floated="right" size="mini" src={q.author.avatarURL} />
-                      <Card.Header>{q.author} asks...</Card.Header>
-                      <Card.Meta>{formatDate(q.timestamp)}</Card.Meta>
-                      <Card.Description>Would you rather...</Card.Description>
-                    </Card.Content>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </Tab.Pane>
-      },
-      {
-        menuItem: 'Answered',
-        render: () => 
-          <Tab.Pane attached={false}>
-            <div>
-              {answeredQuestions.map((q) => (
+              {userQuestionData.unansweredQuestions.map((q) => (
                 <Link to={`/question/${q.id}`} key={q.id}>
                   <Question id={q.id} />
                 </Link>
               ))}
             </div>
-          </Tab.Pane>,
+          </Tab.Pane>
+        ),
       },
-    ]
+      {
+        menuItem: "Answered",
+        render: () => (
+          <Tab.Pane attached={false}>
+            <div>
+              {userQuestionData.answeredQuestions.map((q) => (
+                <Link to={`/question/${q.id}`} key={q.id}>
+                  <Question id={q.id} />
+                </Link>
+              ))}
+            </div>
+          </Tab.Pane>
+        ),
+      },
+    ];
 
     return (
       <Container>
-      <h1>Would you rather...</h1>
-      <Grid columns='one' centered>
-        <Grid.Row>
-          <Grid.Column width={2}>
-          </Grid.Column>
-          <Grid.Column>
-            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+        <h1>Would you rather...</h1>
+        <Grid columns="one" centered>
+          <Grid.Row>
+            <Grid.Column width={2}></Grid.Column>
+            <Grid.Column>
+              <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </Container>
     );
   }
@@ -81,8 +82,11 @@ function mapStateToProps({ questions, users, authedUser }) {
 
   return {
     questions,
-    answeredQuestions: answeredQuestions,
-    unansweredQuestions: unansweredQuestions,
+    authedUserAnswers,
+    userQuestionData: {
+      answeredQuestions,
+      unansweredQuestions,
+    },
     authedUser,
     users,
   };

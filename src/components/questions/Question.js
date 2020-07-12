@@ -1,29 +1,37 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
 import { Button, Card, Image } from "semantic-ui-react";
 
-import { formatQuestion } from "../../utils/_DATA.js";
 import { formatDate } from "../../utils/helpers.js";
-import { handleAddAnswer } from "../../actions/shared"
+import { handleAddAnswer } from "../../actions/shared";
 
 class Question extends Component {
-  handleAnswer = (e) => {
-    e.preventDefault()
+  state = {
+    vote: "",
+  };
+
+  handleAnswer = (e, { vote }) => {
+    const value = e.target.name;
+
+    e.preventDefault();
 
     const { dispatch, question, authedUser } = this.props;
 
-    dispatch(handleAddAnswer({
-      authedUser,
-      qid: question.id, 
-      answer: e.target.name
-    }))
-  }
+    this.setState(() => ({ vote: value }));
+
+    dispatch(
+      handleAddAnswer({
+        authedUser,
+        qid: question.id,
+        answer: e.target.name,
+      })
+    );
+  };
 
   render() {
-    const { question, author, authedUser, questionVotes } = this.props;
+    const { question, author, usersAnsweredQuestions } = this.props;
 
-    const { id, timestamp, optionOne, optionTwo } = question;
+    const { timestamp, optionOne, optionTwo } = question;
 
     return (
       <Card>
@@ -35,16 +43,24 @@ class Question extends Component {
         </Card.Content>
         <Card.Content extra>
           <div className="ui two buttons">
-            <Button basic color="green" name="optionOne" onClick={this.handleAnswer}>
+            <Button
+              basic
+              color="green"
+              name="optionOne"
+              onClick={this.handleAnswer}
+            >
               {optionOne.text}
             </Button>
-            <Button basic color="red" name="optionTwo" onClick={this.handleAnswer}>
+            <Button
+              basic
+              color="red"
+              name="optionTwo"
+              onClick={this.handleAnswer}
+            >
               {optionTwo.text}
             </Button>
           </div>
-          {questionVotes.includes(authedUser) ? (
-            <p>You've voted for this</p>
-          ) : null}
+          {usersAnsweredQuestions ? <p>You've voted for this</p> : null}
         </Card.Content>
       </Card>
     );
@@ -57,6 +73,7 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
   const optionOneVotes = question.optionOne.votes;
   const optionTwoVotes = question.optionTwo.votes;
   const questionVotes = optionOneVotes.concat(optionTwoVotes);
+  const usersAnsweredQuestions = questionVotes.includes(authedUser);
 
   return {
     authedUser,
@@ -64,6 +81,7 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
     author,
     users,
     questionVotes,
+    usersAnsweredQuestions,
   };
 }
 

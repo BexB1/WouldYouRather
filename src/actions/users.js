@@ -12,11 +12,11 @@ export function receiveUsers(users) {
   };
 }
 
-export function saveUserAnswer(user, qid, answer) {
+export function saveUserAnswer({ authedUser, qid, answer }) {
   return {
     type: SAVE_USER_ANSWER,
-    user,
+    authedUser,
     qid,
-    answer
-  }
+    answer,
+  };
 }
