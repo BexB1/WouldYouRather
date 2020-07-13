@@ -45,7 +45,6 @@ body {
   width: 100%;
   background-color: #000;
   color: #fff;
-  text-align: right;
   height: 50px;
   margin: 0;
 }
@@ -65,4 +64,8 @@ body {
 
 .label {
   color: green;
+}
+
+.q-card--small {
+  margin-bottom: 15px;
 }

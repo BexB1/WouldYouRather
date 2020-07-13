@@ -1,33 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
-import Question from "./questions/Question";
 import { formatDate } from "../utils/helpers.js";
-import { Card, Container, Grid, Image, Tab } from "semantic-ui-react";
+import { Button, Card, Container, Grid, Image, Tab } from "semantic-ui-react";
+
+const QuestionWrapper = styled.div`
+  margin-bottom: 15px;
+`;
 
 class Home extends Component {
-  state = {
-    viewAnswered: false,
-  };
-
-  handleTabToggle = () => {
-    this.getState();
-  };
-
   render() {
-    const { handleTabToggle, questionsFiltered } = this.props;
+    const { questionsFiltered } = this.props;
 
     const panes = [
       {
         menuItem: "Unanswered",
         render: () => (
-          <Tab.Pane attached={false} onClick={handleTabToggle}>
-            <div>
-              {questionsFiltered.unansweredQuestions.length > 0 ? (
-                questionsFiltered.unansweredQuestions.map((q) => (
-                  <Link to={`/question/${q.id}`} key={q.id}>
-                    <Card>
+          <Tab.Pane attached={false}>
+            {questionsFiltered.unansweredQuestions.length > 0 ? (
+              questionsFiltered.unansweredQuestions.map((q) => (
+                <QuestionWrapper key={q.id}>
+                  <Link to={`/question/${q.id}`}>
+                    <Card fluid>
                       <Card.Content>
                         <Image
                           floated="right"
@@ -38,13 +34,14 @@ class Home extends Component {
                         <Card.Meta>{formatDate(q.timestamp)}</Card.Meta>
                         <Card.Description>Would you rather...</Card.Description>
                       </Card.Content>
+                      <Button color="blue">Vote!</Button>
                     </Card>
                   </Link>
-                ))
-              ) : (
-                <p>You've answered all the questions!</p>
-              )}
-            </div>
+                </QuestionWrapper>
+              ))
+            ) : (
+              <p>You've answered all the questions!</p>
+            )}
           </Tab.Pane>
         ),
       },
@@ -52,13 +49,25 @@ class Home extends Component {
         menuItem: "Answered",
         render: () => (
           <Tab.Pane attached={false}>
-            <div>
-              {questionsFiltered.answeredQuestions.map((q) => (
-                <Link to={`/question/${q.id}`} key={q.id}>
-                  <Question id={q.id} />
+            {questionsFiltered.answeredQuestions.map((q) => (
+              <QuestionWrapper key={q.id}>
+                <Link to={`/question/${q.id}`}>
+                  <Card fluid>
+                    <Card.Content>
+                      <Image
+                        floated="right"
+                        size="mini"
+                        src={q.author.avatarURL}
+                      />
+                      <Card.Header>{q.author} asks...</Card.Header>
+                      <Card.Meta>{formatDate(q.timestamp)}</Card.Meta>
+                      <Card.Description>Would you rather...</Card.Description>
+                    </Card.Content>
+                    <Button color="grey">View vote</Button>
+                  </Card>
                 </Link>
-              ))}
-            </div>
+              </QuestionWrapper>
+            ))}
           </Tab.Pane>
         ),
       },
@@ -67,9 +76,8 @@ class Home extends Component {
     return (
       <Container>
         <h1>Would you rather...</h1>
-        <Grid columns="one" centered>
+        <Grid columns="two" centered>
           <Grid.Row>
-            <Grid.Column width={2}></Grid.Column>
             <Grid.Column>
               <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
             </Grid.Column>
@@ -84,6 +92,9 @@ function mapStateToProps({ questions, users, authedUser }) {
   let questionValues = Object.values(questions);
   const user = users[authedUser];
   const authedUserAnswers = user ? Object.keys(user.answers) : [];
+  const authedUserQuestion = (q) => {
+    return !user.questions.includes(q.id);
+  };
 
   const answeredQuestions = questionValues
     .filter((q) => authedUserAnswers.includes(q.id))
@@ -91,6 +102,7 @@ function mapStateToProps({ questions, users, authedUser }) {
 
   const unansweredQuestions = questionValues
     .filter((q) => !authedUserAnswers.includes(q.id))
+    .filter((q) => authedUserQuestion(q))
     .sort((a, b) => b.timestamp - a.timestamp);
 
   return {

@@ -11,10 +11,10 @@ class Results extends Component {
     return (
       <div>
         {results.map((option) => (
-          <div>
+          <div key={option.id}>
             <h3>"{option.optionText}"</h3>
             <p>
-              {option.optionVotes.length > 0 ? option.optionVotes.length : 0}
+              {option.optionVotes.length > 0 ? option.optionVotes.length : 0}{" "}
               users voted for this option.
             </p>
             <Progress
@@ -25,10 +25,6 @@ class Results extends Component {
                     )
                   : 0
               }
-              value={
-                option.optionVotes.length > 0 ? option.optionVotes.length : 0
-              }
-              total={questionVotes.length}
               color={option.optionVotes.includes(authedUser) ? "green" : "grey"}
               label={option.optionVotes.includes(authedUser) ? "You" : null}
               progress
@@ -45,26 +41,24 @@ function mapStateToProps({ authedUser, users, questions }, { id }) {
   const optionOneVotes = question.optionOne.votes;
   const optionTwoVotes = question.optionTwo.votes;
   const questionVotes = optionOneVotes.concat(optionTwoVotes);
-  const usersAnsweredQuestions = questionVotes.includes(authedUser);
 
   return {
     authedUser,
     question,
     users,
     questionVotes,
-    optionOneVotes,
-    optionTwoVotes,
     resultsByOption: {
       optionOne: {
+        id: 1,
         optionText: question.optionOne.text,
         optionVotes: optionOneVotes,
       },
       optionTwo: {
+        id: 2,
         optionText: question.optionTwo.text,
         optionVotes: optionTwoVotes,
       },
     },
-    usersAnsweredQuestions,
   };
 }
 

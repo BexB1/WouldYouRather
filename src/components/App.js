@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import "../App.css";
 
+import LoadingBar from "react-redux-loading";
 import Nav from "./Nav";
 import Home from "./Home";
 import Leaderboard from "./Leaderboard";
@@ -18,6 +19,7 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
+          <LoadingBar />
           <div className="App">
             <Nav />
             {this.props.loading === true ? null : (

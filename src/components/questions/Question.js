@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Button, Card, Container, Grid, Image } from "semantic-ui-react";
 
 import Results from "./Results";
 import { formatDate } from "../../utils/helpers.js";
@@ -27,38 +27,44 @@ class Question extends Component {
     const { timestamp, optionOne, optionTwo } = question;
 
     return (
-      <Card>
-        <Card.Content>
-          <Image floated="right" size="mini" src={author.avatarURL} />
-          <Card.Header>{question.author} asks...</Card.Header>
-          <Card.Meta>{formatDate(timestamp)}</Card.Meta>
-          <Card.Description>Would you rather...</Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          {usersAnsweredQuestions ? (
-            <Results id={question.id} />
-          ) : (
-            <div className="ui two buttons">
-              <Button
-                basic
-                color="green"
-                name="optionOne"
-                onClick={this.handleAnswer}
-              >
-                {optionOne.text}
-              </Button>
-              <Button
-                basic
-                color="red"
-                name="optionTwo"
-                onClick={this.handleAnswer}
-              >
-                {optionTwo.text}
-              </Button>
-            </div>
-          )}
-        </Card.Content>
-      </Card>
+      <Container>
+        <Grid columns="two" centered>
+          <Grid.Row>
+            <Grid.Column>
+              <Card>
+                <Card.Content>
+                  <Image floated="left" size="mini" src={author.avatarURL} />
+                  <Card.Header>{question.author} asks...</Card.Header>
+                  <Card.Meta>{formatDate(timestamp)}</Card.Meta>
+                  <Card.Description>Would you rather...</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  {usersAnsweredQuestions ? (
+                    <Results id={question.id} />
+                  ) : (
+                    <div className="ui two buttons">
+                      <Button
+                        color="green"
+                        name="optionOne"
+                        onClick={this.handleAnswer}
+                      >
+                        {optionOne.text}
+                      </Button>
+                      <Button
+                        color="blue"
+                        name="optionTwo"
+                        onClick={this.handleAnswer}
+                      >
+                        {optionTwo.text}
+                      </Button>
+                    </div>
+                  )}
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
     );
   }
 }
