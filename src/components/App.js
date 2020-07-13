@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import "../App.css";
 
 import LoadingBar from "react-redux-loading";
+import Login from "./Login";
 import Nav from "./Nav";
 import Home from "./Home";
 import Leaderboard from "./Leaderboard";
@@ -22,7 +23,9 @@ class App extends Component {
           <LoadingBar />
           <div className="App">
             <Nav />
-            {this.props.loading === true ? null : (
+            {this.props.loading === true ? (
+              <Login />
+            ) : (
               <div>
                 <Route path="/" exact component={Home} />
                 <Route path="/question/:id" exact component={ShowQuestion} />

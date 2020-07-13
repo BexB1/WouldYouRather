@@ -4,7 +4,7 @@ import { receiveUsers, addQuestionToUser, saveUserAnswer } from "./users";
 import { setAuthedUser } from "../actions/authedUser";
 import { showLoading, hideLoading } from "react-redux-loading";
 
-const AUTHED_ID = "tylermcginnis";
+// const AUTHED_ID = "";
 
 export function handleInitialData() {
   return (dispatch) => {
@@ -12,9 +12,14 @@ export function handleInitialData() {
     return getInitialData().then(({ users, questions }) => {
       dispatch(receiveQuestions(questions));
       dispatch(receiveUsers(users));
-      dispatch(setAuthedUser(AUTHED_ID));
       dispatch(hideLoading());
     });
+  };
+}
+
+export function handleUserLogin(id) {
+  return (dispatch) => {
+    dispatch(setAuthedUser(id));
   };
 }
 

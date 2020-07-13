@@ -34,8 +34,7 @@ export class NewQuestion extends Component {
   };
 
   render() {
-    const { optionOneText, optionTwoText } = this.state;
-    const { toHome } = this.state;
+    const { optionOneText, optionTwoText, toHome } = this.state;
 
     if (toHome === true) {
       return <Redirect to="/" />;
