@@ -91,10 +91,7 @@ class Home extends Component {
 function mapStateToProps({ questions, users, authedUser }) {
   let questionValues = Object.values(questions);
   const user = users[authedUser];
-  const authedUserAnswers = user ? Object.keys(user.answers) : [];
-  const authedUserQuestion = (q) => {
-    return !user.questions.includes(q.id);
-  };
+  const authedUserAnswers = Object.keys(user.answers);
 
   const answeredQuestions = questionValues
     .filter((q) => authedUserAnswers.includes(q.id))
@@ -102,17 +99,16 @@ function mapStateToProps({ questions, users, authedUser }) {
 
   const unansweredQuestions = questionValues
     .filter((q) => !authedUserAnswers.includes(q.id))
-    .filter((q) => authedUserQuestion(q))
     .sort((a, b) => b.timestamp - a.timestamp);
 
   return {
     questions,
+    authedUser,
     authedUserAnswers,
     questionsFiltered: {
       answeredQuestions,
       unansweredQuestions,
     },
-    authedUser,
     users,
   };
 }

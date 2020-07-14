@@ -24,10 +24,13 @@ class App extends Component {
           <div className="App">
             <Nav />
             {this.props.loading === true ? (
-              <Login />
+              <div>
+                <Login />
+              </div>
             ) : (
               <div>
                 <Route path="/" exact component={Home} />
+                <Route path="/login" exact component={Login} />
                 <Route path="/question/:id" exact component={ShowQuestion} />
                 <Route path="/leaderboard" exact component={Leaderboard} />
                 <Route path="/add" exact component={NewQuestion} />

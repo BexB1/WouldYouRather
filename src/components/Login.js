@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Input } from "semantic-ui-react";
+import { Button, Card, Container, Image } from "semantic-ui-react";
 
 import { setAuthedUser } from "../actions/authedUser";
 
@@ -9,10 +9,12 @@ export class Login extends Component {
     username: "",
   };
 
-  handleChange = (e) => {
-    this.setState({
-      username: e.target.value,
-    });
+  handleChange = (id) => {
+    this.setState((prevState) => ({
+      username: id,
+    }));
+
+    console.log(this.state.username);
   };
 
   handleLogin = (e) => {
@@ -22,20 +24,36 @@ export class Login extends Component {
     const { username } = this.state;
 
     dispatch(setAuthedUser(username));
-
-    this.setState(() => ({
-      username: "",
-    }));
   };
 
   render() {
+    const { users } = this.props;
+
     return (
-      <div>
-        <Input placeholder="Username" onChange={this.handleChange} />
-        <Button color="blue" onClick={this.handleLogin}>
-          Log in
+      <Container>
+        <h1>Log in</h1>
+        <Card.Group itemsPerRow={3}>
+          {users.map((user) => (
+            <Card
+              key={user.id}
+              id={user.id}
+              onClick={() => this.handleChange(user.id)}
+            >
+              <Image
+                src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
+                wrapped
+                ui={false}
+              />
+              <Card.Content>
+                <Card.Header>{user.id}</Card.Header>
+              </Card.Content>
+            </Card>
+          ))}
+        </Card.Group>
+        <Button color="blue" fluid onClick={this.handleLogin}>
+          Login
         </Button>
-      </div>
+      </Container>
     );
   }
 }
@@ -43,7 +61,7 @@ export class Login extends Component {
 function mapStateToProps({ authedUser, users }) {
   return {
     authedUser,
-    users,
+    users: Object.values(users),
   };
 }
 export default connect(mapStateToProps)(Login);
