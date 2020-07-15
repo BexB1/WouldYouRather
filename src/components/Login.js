@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { Button, Card, Container, Image } from "semantic-ui-react";
 
 import { setAuthedUser } from "../actions/authedUser";
@@ -7,6 +8,7 @@ import { setAuthedUser } from "../actions/authedUser";
 export class Login extends Component {
   state = {
     username: "",
+    toHome: false,
   };
 
   handleChange = (id) => {
@@ -22,11 +24,19 @@ export class Login extends Component {
     const { username } = this.state;
 
     dispatch(setAuthedUser(username));
+
+    this.setState(() => ({
+      toHome: true,
+    }));
   };
 
   render() {
     const { users } = this.props;
-    const { username } = this.state;
+    const { username, toHome } = this.state;
+
+    if (toHome === true) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <Container>

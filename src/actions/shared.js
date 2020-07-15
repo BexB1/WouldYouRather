@@ -1,7 +1,7 @@
 import { getInitialData, saveQuestion, saveQuestionAnswer } from "../utils/api";
 import { receiveQuestions, addQuestion, addAnswer } from "./questions";
 import { receiveUsers, addQuestionToUser, saveUserAnswer } from "./users";
-import { setAuthedUser } from "../actions/authedUser";
+import { setAuthedUser, deleteAuthedUser } from "../actions/authedUser";
 import { showLoading, hideLoading } from "react-redux-loading";
 
 export function handleInitialData() {
@@ -18,6 +18,12 @@ export function handleInitialData() {
 export function handleUserLogin(id) {
   return (dispatch) => {
     dispatch(setAuthedUser(id));
+  };
+}
+
+export function handleUserLogout() {
+  return (dispatch) => {
+    dispatch(deleteAuthedUser());
   };
 }
 

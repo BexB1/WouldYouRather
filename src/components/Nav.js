@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Button } from "semantic-ui-react";
+
 import styled from "styled-components";
+
+import { deleteAuthedUser } from "../actions/authedUser";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -17,6 +21,16 @@ const StyledLi = styled.li`
 `;
 
 class Nav extends Component {
+  state = {
+    toLogin: false,
+  };
+
+  logOut = () => {
+    const { dispatch } = this.props;
+
+    dispatch(deleteAuthedUser());
+  };
+
   render() {
     const { authedUser } = this.props;
 
@@ -41,6 +55,9 @@ class Nav extends Component {
             <NavLink to="/leaderboard" exact>
               Leaderboard
             </NavLink>
+          </StyledLi>
+          <StyledLi>
+            <Button onClick={this.logOut}>Log out</Button>
           </StyledLi>
         </ul>
       </StyledNav>
