@@ -31,7 +31,7 @@ class Question extends Component {
         <Grid columns="two" centered>
           <Grid.Row>
             <Grid.Column>
-              <Card>
+              <Card fluid>
                 <Card.Content>
                   <Image floated="left" size="mini" src={author.avatarURL} />
                   <Card.Header>{question.author} asks...</Card.Header>

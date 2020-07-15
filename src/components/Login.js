@@ -13,8 +13,6 @@ export class Login extends Component {
     this.setState((prevState) => ({
       username: id,
     }));
-
-    console.log(this.state.username);
   };
 
   handleLogin = (e) => {
@@ -28,6 +26,7 @@ export class Login extends Component {
 
   render() {
     const { users } = this.props;
+    const { username } = this.state;
 
     return (
       <Container>
@@ -39,17 +38,14 @@ export class Login extends Component {
               id={user.id}
               onClick={() => this.handleChange(user.id)}
             >
-              <Image
-                src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
-                wrapped
-                ui={false}
-              />
+              <Image src={user.avatarURL} wrapped ui={false} />
               <Card.Content>
                 <Card.Header>{user.id}</Card.Header>
               </Card.Content>
             </Card>
           ))}
         </Card.Group>
+        <h2>Logging in as: {username}</h2>
         <Button color="blue" fluid onClick={this.handleLogin}>
           Login
         </Button>
