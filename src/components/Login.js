@@ -12,7 +12,7 @@ export class Login extends Component {
   };
 
   handleChange = (id) => {
-    this.setState((prevState) => ({
+    this.setState(() => ({
       username: id,
     }));
   };

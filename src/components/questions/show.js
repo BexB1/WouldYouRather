@@ -18,7 +18,7 @@ class showQuestion extends Component {
     }));
   };
   render() {
-    const { id } = this.props;
+    const { id, questionExists } = this.props;
     const { toHome } = this.state;
 
     if (toHome === true) {
@@ -30,7 +30,14 @@ class showQuestion extends Component {
         <Grid columns="one" centered>
           <Grid.Row>
             <Grid.Column>
-              <Question id={id} />
+              {questionExists ? (
+                <Question id={id} />
+              ) : (
+                <div>
+                  <h1>404 - Uh oh!</h1>
+                  <p>Oh no, that question doesn't exist!</p>
+                </div>
+              )}
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -42,11 +49,13 @@ class showQuestion extends Component {
   }
 }
 
-function mapStateToProps({ authedUser, questions, users }, props) {
+function mapStateToProps({ questions }, props) {
   const { id } = props.match.params;
+  const questionExists = Object.keys(questions).includes(id) ? true : false;
 
   return {
     id,
+    questionExists,
   };
 }
 
